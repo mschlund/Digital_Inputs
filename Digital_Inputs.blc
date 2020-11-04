@@ -1,13 +1,14 @@
 
-@[CConst (binding ="MILLIS_PER_TICK", header = "env.h")]
+@[CConst (binding = "MILLIS_PER_TICK", header = "env.h")]
 extern const MILLIS_PER_TICK: nat32
 
-@[CFunction (source = "env.h")]
-extern function activateLED ()
+@[CFunction (binding = "activateLED()", header = "env.h")]
+extern function LED_on ()
 
-@[CFunction (source = "env.h")]
-extern function deactivateLED ()
+@[CFunction (binding = "deactivateLED()", header = "env.h")]
+extern function LED_off ()
 
+// from: https://github.com/frameworklabs/react/blob/master/react.blc
 /// Delays the trail for the given period.
 activity Delay (millis: nat32)
     var ticks = millis / MILLIS_PER_TICK
@@ -34,9 +35,9 @@ activity Main () ()
     repeat
         run toggleLED(prev state)(state)
         if state then
-            activateLED()
+            LED_on()
         else
-            deactivateLED()
+            LED_off()
         end
         run Delay(200)
     end

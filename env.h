@@ -5,6 +5,9 @@
 
 #define MILLIS_PER_TICK 10
 
+void activateLED(void);
+void deactivateLED(void);
+
 extern blc_bool buttonPressed;
 
 #endif

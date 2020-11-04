@@ -1,13 +1,21 @@
-#include "env.h"
-
-blc_bool buttonPressed = false;
 
 extern "C" {
+  #include "env.h"
   #include "Digital_Inputs.h"
 }
 
-#define LED_PIN 5
-#define BUTTON_PIN 9
+#define LED_PIN 9
+#define BUTTON_PIN 5
+
+blc_bool buttonPressed = false;
+
+void activateLED() {
+  digitalWrite(LED_PIN, HIGH);
+}
+
+void deactivateLED() {
+  digitalWrite(LED_PIN, LOW);
+}
 
 void setup()
 {
@@ -15,14 +23,6 @@ void setup()
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   Serial.begin(9600);
   blc_blech_Digital_Inputs_init();
-}
-
-void blc_Digital_Inputs_activateLED() {
-  digitalWrite(LED_PIN, HIGH);
-}
-
-void blc_Digital_Inputs_deactivateLED() {
-  digitalWrite(LED_PIN, LOW);
 }
 
 void loop() 

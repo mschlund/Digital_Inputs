@@ -1,4 +1,5 @@
-#
+# compiles blech and copies generated files to the
+# current dir (for arduino), renaming includes appropriately
 project_name=Digital_Inputs
 all:
 	blechc ${project_name}.blc
