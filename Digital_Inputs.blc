@@ -1,0 +1,43 @@
+
+@[CConst (binding ="MILLIS_PER_TICK", header = "env.h")]
+extern const MILLIS_PER_TICK: nat32
+
+@[CFunction (source = "env.h")]
+extern function activateLED ()
+
+@[CFunction (source = "env.h")]
+extern function deactivateLED ()
+
+/// Delays the trail for the given period.
+activity Delay (millis: nat32)
+    var ticks = millis / MILLIS_PER_TICK
+
+    if ticks == 0 then
+        ticks = 1 // Need to wait at least one tick
+    end
+    repeat
+        ticks = ticks - 1
+        await true
+    until ticks == 0 end
+end
+
+activity toggleLED(state_in : bool)(state_out : bool)
+    @[CInput (binding ="buttonPressed", header = "env.h")]
+    extern let buttonPressed: bool
+    await buttonPressed
+    state_out = not state_in
+end
+
+@[EntryPoint]
+activity Main () ()
+    var state : bool = false
+    repeat
+        run toggleLED(prev state)(state)
+        if state then
+            activateLED()
+        else
+            deactivateLED()
+        end
+        run Delay(200)
+    end
+end
